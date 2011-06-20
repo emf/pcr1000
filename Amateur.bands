@@ -1,0 +1,21 @@
+Button, Freq Start, Freq End, Freq Step, Mode, Filter, Description
+160m,         1.8M,     2.0m,       100,  LSB,   2.8k, Ham 160 meters
+80m,          3.5M,     4.0m,       100,  LSB,   2.8k, Ham 80 meters
+40m,          7.0m,    7300k,       100,  LSB,   2.8k, Ham 40 meters
+30m,         10.1m,   10.15m,       100,  USB,   2.8k, Ham 30 meters
+20m,         14.0m,   14.35m,       100,  USB,   2.8k, Ham 20 meters
+17m,       18.068m,  18.168m,       100,  USB,   2.8k, Ham 17 meters
+15m,         21.0m,    21.45,       100,  USB,   2.8k, Ham 15 meters
+12m,        24.89m,   24.99m,       100,  USB,   2.8k, Ham 12 meters
+10m,         28.0m,    29.7m,       100,  USB,   2.8k, Ham 10 meters
+6m,          50.0m,    54.0m,       100,  USB,   2.8k, Ham 6m mteres
+2m,           144m,     148m,       100,  USB,   2.8k, Mam 2 meters
+2mr1,      145.20m,  145.50m,       15K,  nFM,    15k, 2-meter repeaters
+2mr2,      146.61m,  147.39m,       15k,  nFM,    15k, 2-meter repeaters
+222,          222m,     225m,       100,  USB,   2.8k, Ham 1.25 meters
+1.25r,     223.85m,  224.98m,       15k,  nFM,    15k, 1.25-meter repeaters
+420,          420m,     450m,       100,  USB,   2.8k, Ham 70 centimeters
+70r1,      442.00m,  445.00m,       15k,  nFM,    15k, 70cm repeaters
+70r2,      447.00m,  450.00m,       15k,  nFM,    15k, 70cm repeaters
+33cm,         902m,     928m,       100,  USB,   2.8k, Ham 33 cm
+23cm,        1240m,    1300m,       100,  USB,   2.8k, Ham 23 cm

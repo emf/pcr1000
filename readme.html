@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>Icom PCR-1000 software</title>
+  <meta name="author" content="James C. Ahlstrom">
+  <meta name="description"
+ content="Control software in Python for Icom PCR-1000">
+</head>
+<body>
+<div style="text-align: center;"><font size="+2">Icom PCR-1000 Radio
+Control Software</font><br>
+</div>
+<br>
+<font size="+1">What is a PCR-1000 radio?</font><br>
+<br>
+A <a href="http://www.icomamerica.com/products/receivers/pcr1000">PCR-1000</a>
+is a radio receiver made by <a href="http://icomamerica.com">Icom</a>.&nbsp;
+It is a metal box the size of a paperback book.&nbsp; You connect it to
+your PC's serial port with a DB-9 cable, and control it from your PC
+by running a control program.&nbsp; The receiver tunes 100 kilohertz to
+1.3 gigahertz.&nbsp; It has a tiny internal speaker, but you will want
+to use an external amp and speaker.&nbsp; The included antenna is
+nearly useless, and you will need a serious outdoor antenna just as you
+would with any receiver.<br>
+<br>
+<font size="+1">What does the PCR-1000 "Control Program" do?</font><br>
+<br>
+The control program runs on the PC connected to the PCR-1000.&nbsp;
+Most are designed to look like a radio receiver with a frequency
+display, volume knob, buttons etc.&nbsp; The PC sends bytes to the
+PCR-1000 to set the frequency, mode and filter.&nbsp; The radio sends
+bytes to the PC giving the signal strength, squelch status and band
+scope data.<br>
+<br>
+<font size="+1">Where do I get a control program?</font><br>
+<br>
+The PCR-1000 comes with two control programs, so you don't need another
+control program unless you don't like the ones it came with.&nbsp;
+There are many other control programs available.&nbsp; Search for
+resources on the net, or try the lists <a
+ href="http://geophysics.ou.edu/ahern/home/pcr1000">here</a> or <a
+ href="http://qsy.to/pcr">here</a>.<br>
+<br>
+<font size="+1">So why did you write another one?</font><br>
+<br>
+Mostly for fun.&nbsp; Radio is a hobby, right?&nbsp; Also I didn't like
+the other programs available.&nbsp; I thought there may be interest in
+a program that came with source code so a radio owner could change the
+program to make it do what she wanted.&nbsp; So I am making the
+software available for free in the hopes that people will improve on it
+and have fun.<br>
+<br>
+<font size="+1">What does it look like?</font><br>
+<br>
+You can see a <a href="screenshot.png">screen shot here</a>.&nbsp; The
+program was designed to work
+on Windows and Linux, since both are important platforms in software
+radio.&nbsp; It is written in Python and uses Tkinter as a portable
+GUI, so it will run on many other platforms too.&nbsp; Other design
+goals were convenience for both channelized (FM repeater, UHF business)
+and amateur CW/SSB communications, simplicity, small screen space, and
+user programmability.<br>
+<br>
+<font size="+1">How do I get it and install it?</font><br>
+<br>
+First, the software is licensed unser the GNU General Public License
+(GPL), and there is NO WARRANTY AT ALL, SO USE AT YOUR OWN RISK.<br>
+<br>
+Create a directory on your PC and then download and extract <a
+ href="pcr1000.zip">this zip file</a> into it.&nbsp; On Windows, the directory
+should be a subdirectory of "Program Files".&nbsp; On Linux, try a
+subdirectory of your home directory or of /usr/local.<br>
+<br>
+<font size="+1">What do I need to make it work?</font><br>
+<br>
+You must have a recent version of Python installed on your PC.&nbsp; I
+have Python 2.3 on my Windows machine, and Python 2.2 on Linux.&nbsp;
+Get the most recent stable version, at least version 2.2.<br>
+<br>
+For Windows, download the Python Windows installer from <a
+ href="http://www.python.org/download">www.python.org/download</a> and
+install Python.&nbsp; After you do this (I mean AFTER), download the
+corresponding (same version as Python) version of pywin32 from <a
+ href="http://sourceforge.net/projects/pywin32">sourceforge.net/projects/pywin32</a>
+and install that.&nbsp; Then download and install pyserial from <a
+ href="http://sourceforge.net/projects/pyserial">sourceforge.net/projects/pyserial</a>.&nbsp;
+All installers are easy to use Windows installers.<br>
+<br>
+For Linux, first check to see if Python is already installed.&nbsp; In
+a terminal, enter "python" and see if you get a response.&nbsp; If not,
+download and install Python from <a
+ href="http://www.python.org/download">www.python.org/download</a>.&nbsp;
+Then put the pyserial files from&nbsp; <a
+ href="http://sourceforge.net/projects/pyserial">sourceforge.net/projects/pyserial</a>
+in the subdirectory site-packages/serial in your Python library
+directory.&nbsp; That is, install serial as a package.&nbsp; You don't
+need pywin32.
+</body>
+</html>

@@ -1,0 +1,5 @@
+Button, Freq Start, Freq End, Freq Step, Mode, Filter, Description
+CHU,        7335k,     7335k,       100,   AM,     6k, CHU time standard
+WWV5,          5m,        5m,       100,   AM,     6k
+WWV10,        10m,       10m,       100,   AM,     6k
+WWV15,        15m,       15m,       100,   AM,     6k

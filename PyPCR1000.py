@@ -860,7 +860,7 @@ class Application(Tkinter.Tk):
 			self.after(ScanMillisecs, self.PauseMemscan)				# wait for squelch to close
 		else:
 			print "pause, closed"
-			self.after(3 * ScanMillisecs, self.HoldForFollowupMemscan)	# delay in case it comes back right away
+			self.after(3000, self.HoldForFollowupMemscan)	# delay in case it comes back right away
 
 	def HoldForFollowupMemscan(self):
 		if self.radio.squelch_open:

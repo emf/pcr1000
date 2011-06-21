@@ -846,21 +846,29 @@ class Application(Tkinter.Tk):
 			self.StartMemscan()
 
 	def RunMemscan(self):
-		from time import sleep
 		p = self.radio.serialport
 		if p.isOpen() and self.memscanner:
-			while True:
-				while self.radio.squelch_open:		# wait for squelch to close
-					print "signal.. sleeping.."
-					sleep(ScanMillisecs / 1000.0)
-					pass
-				print "no signal... sleeping in case it comes back..."
-				sleep(3 * ScanMillisecs / 1000.0)	# delay in case it comes back right away
-				if not self.radio.squelch_open:
-					print "signal didn't come back in time. next one!"
-					break
-			self.NextStation(1)						# tune to the next channel
-			self.after(ScanMillisecs, self.RunMemscan)	# Reschedule ourself
+			if self.radio.squelch_open:
+			    self.after(ScanMillisecs, self.PauseMemscan)
+			else:
+				self.NextStation(1)						# tune to the next channel
+				self.after(ScanMillisecs, self.RunMemscan)	# Reschedule ourself
+
+	def PauseMemscan(self):
+		if self.radio.squelch_open:
+			print "pause, open"
+			self.after(ScanMillisecs, self.PauseMemscan)				# wait for squelch to close
+		else:
+			print "pause, closed"
+			self.after(3 * ScanMillisecs, self.HoldForFollowupMemscan)	# delay in case it comes back right away
+
+	def HoldForFollowupMemscan(self):
+		if self.radio.squelch_open:
+			print "hold, open again"
+			self.after(ScanMillisecs, self.PauseMemscan)
+		else:
+			print "hold, go back to memscan"
+			self.after(ScanMillisecs, self.RunMemscan)
 
 	def StopMemscan(self):
 		self.memscanner = False

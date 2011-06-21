@@ -572,13 +572,10 @@ class Application(Tkinter.Tk):
 			self.varStation.set('')
 
 	def NextStation(self, up):
+		from bisect import bisect_left, bisect_right
 		print "NextStation!"
 		"""
 		Tune to next station.
-		Binary search in a sorted list of all stations.
-		Find (index, exists), where exists is 0/1 if the value exists.
-		If value is not in the list (exists==0), return the upper index,
-		or len(lst) if it is past the last value.
 		"""
 		lst = self.ListStations
 		if not lst:
@@ -586,77 +583,22 @@ class Application(Tkinter.Tk):
 
 		value = self.radio.frequency
 		print "current frequency is:", value
-		length = len(lst)
-		i1 = 0
-		i2 = length - 1
-		exists = 0
-
-		if value < lst[0]:	# before the start
-			if not up:
-				index = i2
-			index = 0
-		elif value > lst[i2]: # past the end
-			if up:
-				index = 0
-			index = i2
-		else:
-			while 1:
-				i = (i1 + i2) / 2
-
-				if lst[i] == value:
-					exists = 1
-					index = i
-					break
-				elif i2 - i1 < 2: # value is between i1 and i2
-					if lst[i2] == value:
-						exists = 1
-						index = i2
-						break
-					else:
-						index = i2
-						break
-				elif lst[i] > value:
-					i2 = i
-				else:
-					i1 = i
-
-			if up:
-				if exists:
-					index = index + 1
-					if index >= length:
-						return
-			else:
-				index = index - 1
-				if index < 0:
-					return
-
-		freq = lst[index]
-
-		print "decided on a candidate of: ", freq
 
 		if up:
-			print "going up..."
-			while 1:
-				index = index + 1
-				if index >= length:
-					index = 0
-				freq = lst[index]
-				print "Presumably tuning to", freq
-				self.dispFreq.Set(freq)
-				self.dispMode.Set(data[4])
-				self.dispFilter.Set(data[5])
-				return
+			i = bisect_right(lst,value)
+			if i == len(lst):		# we're at the right end, wrap around
+				i = 0
+			freq = lst[i]
 		else:
-			print "going down..."
-			while 1:
-				index = index - 1
-				if index < 0:
-					index = length
-				freq = lst[index]
-				self.dispFreq.Set(freq)
-				self.dispMode.Set(data[4])
-				self.dispFilter.Set(data[5])
-				return
+			i = bisect_left(lst,value)
+			if i == 0:				# we're at the left end, wrap around
+				i = len(lst)
+			freq = lst[i-1]
+
+		print "tuning to: ", freq
+		self.dispFreq.Set(freq)
+		self.dispMode.Set(self.Stations[freq][2])
+		self.dispFilter.Set(self.Stations[freq][3])
 
 	def NextFrequency(self, up, wrap=0):
 		bands = []

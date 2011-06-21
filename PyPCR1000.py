@@ -593,11 +593,11 @@ class Application(Tkinter.Tk):
 
 		if value < lst[0]:	# before the start
 			if not up:
-				return
+				index = i2
 			index = 0
 		elif value > lst[i2]: # past the end
 			if up:
-				return
+				index = 0
 			index = i2
 		else:
 			while 1:
@@ -633,25 +633,6 @@ class Application(Tkinter.Tk):
 		freq = lst[index]
 
 		print "decided on a candidate of: ", freq
-		
-		# We now have a new candidate frequency.
-		# See if it in a selected band.
-		fmin = 2000000000
-		fmax = 0
-		bands = []
-
-		for b, sel, data in self.Bands:
-			print "loop: ", b, sel, data
-			if sel:
-				if data[1] <= freq <= data[2]:
-					self.dispFreq.Set(freq)
-					self.dispMode.Set(data[4])
-					self.dispFilter.Set(data[5])
-					return
-				fmin = min(fmin, data[1])
-				fmax = max(fmax, data[2])
-				print "fmin", fmin, "fmax", fmax
-				bands.append(data)
 
 		if up:
 			print "going up..."
@@ -660,17 +641,11 @@ class Application(Tkinter.Tk):
 				if index >= length:
 					index = 0
 				freq = lst[index]
-				print "freq now is:", freq
-				if not fmin <= freq <= fmax:
-					print "outside bounds, bailing"
-					return
-				for data in bands:
-					if data[1] <= freq <= data[2]:
-						print "Presumably tuning to", freq
-						self.dispFreq.Set(freq)
-						self.dispMode.Set(data[4])
-						self.dispFilter.Set(data[5])
-						return
+				print "Presumably tuning to", freq
+				self.dispFreq.Set(freq)
+				self.dispMode.Set(data[4])
+				self.dispFilter.Set(data[5])
+				return
 		else:
 			print "going down..."
 			while 1:
@@ -678,14 +653,10 @@ class Application(Tkinter.Tk):
 				if index < 0:
 					index = length
 				freq = lst[index]
-				if not fmin <= freq <= fmax:
-					return
-				for data in bands:
-					if data[1] <= freq <= data[2]:
-						self.dispFreq.Set(freq)
-						self.dispMode.Set(data[4])
-						self.dispFilter.Set(data[5])
-						return
+				self.dispFreq.Set(freq)
+				self.dispMode.Set(data[4])
+				self.dispFilter.Set(data[5])
+				return
 
 	def NextFrequency(self, up, wrap=0):
 		bands = []

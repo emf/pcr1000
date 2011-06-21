@@ -13,7 +13,7 @@ LOGGER = None # This has a write(text) method for logging messages
 IniFile = {}	# A dictionary to store state in an INI file
 
 SerialPollMillisecs = 10	# Time to poll serial port
-ScanMillisecs = 200 # Time to pause at each frequency when scanning the band
+ScanMillisecs = 100 # Time to pause at each frequency when scanning the band
 bpady = 1		# Standard padding for equal-height buttons
 # Define fonts used by all widgets
 bfont = 'helvetica 10'	# button font

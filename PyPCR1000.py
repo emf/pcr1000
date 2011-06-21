@@ -651,7 +651,7 @@ class Application(Tkinter.Tk):
 			while 1:
 				index = index + 1
 				if index >= length:
-					return
+					index = 0
 				freq = lst[index]
 				if not fmin <= freq <= fmax:
 					return
@@ -665,7 +665,7 @@ class Application(Tkinter.Tk):
 			while 1:
 				index = index - 1
 				if index < 0:
-					return
+					index = length
 				freq = lst[index]
 				if not fmin <= freq <= fmax:
 					return

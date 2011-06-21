@@ -363,8 +363,8 @@ class Application(Tkinter.Tk):
 			b.index = i
 			self.Memories.append(None)
 
-		b = Tkinter.Button(fru, text='Unused 1', font=bfont, pady=bpady, width=8, command=self.OnButtonUnused1)
-		Help(b, 'Program this button yourself in Python!')
+		b = Tkinter.Button(fru, text='Memscan', font=bfont, pady=bpady, width=8, command=self.OnButtonMemscan)
+		Help(b, 'Scan frequencies in Stations.csv. Resume when squelch re-closes.')
 		b.pack(side='right', anchor='e')
 
 		self.StepBandChange(self.band_step)
@@ -911,7 +911,7 @@ class Application(Tkinter.Tk):
 					LOGGER.write(text)
 				self.radio.RadioParseInput(text)
 
-	def OnButtonUnused1(self):
+	def OnButtonMemscan(self):
 		pass
 
 	def OnButtonUnused2(self):

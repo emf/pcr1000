@@ -922,7 +922,7 @@ class Application(Tkinter.Tk):
 		t = t[-12:]
 		self.textDTMF = t
 		self.dispDTMF.config(text='	 DTMF Tone: ' + t)
-		
+
 class PCR1000:
 	"""This class implements the interface to an Icom PCR1000 radio."""
 	modes = ('LSB', 'CW', 'USB', 'AM', 'nFM', 'wFM')
@@ -2097,7 +2097,7 @@ class BandScope(Tkinter.Canvas):
 			self.tune_x = event.x
 			self.tune_y = event.y
 			self.app.dispFreq.Set(self.app.radio.frequency + int(dist))
-		
+
 class DialogSerial(Tkinter.Toplevel):
 	def __init__(self, serialport, master, cnf={}, **kw):
 		global LOGGER
@@ -2131,7 +2131,7 @@ class DialogSerial(Tkinter.Toplevel):
 
 		b = Tkinter.Radiobutton(frm, text='Name:', font=bfont, variable=self.varPort, value=-1)
 		self.widgetPort.append(b)
-		b.pack(side='left', anchor='w')												 
+		b.pack(side='left', anchor='w')
 
 		e = Tkinter.Entry(frm, bg=White, width=18, textvariable=self.varPortText)
 		e.pack(side='left', anchor='w', expand=1, fill='x')
@@ -2242,7 +2242,7 @@ class DialogSerial(Tkinter.Toplevel):
 				self.last_text = text[-1]
 				self.canvas.insert('end', text)
 				self.canvas.see('end')
-		
+
 class StdError:
 	"""This displays a message box in a second main program."""
 	def __init__(self):
@@ -2261,7 +2261,7 @@ class StdError:
 			m.pack()
 			tk.mainloop()
 			self.text = ''
-			
+
 app = None
 #StdErr = StdError()
 app = Application()

@@ -940,7 +940,7 @@ class Application(Tkinter.Tk):
 					pass
 				print "no signal... sleeping in case it comes back..."
 				sleep(3 * ScanMillisecs / 1000.0)	# delay in case it comes back right away
-				if !self.radio.squelch_open:
+				if not self.radio.squelch_open:
 					print "signal didn't come back in time. next one!"
 					break
 			self.NextStation(1)						# tune to the next channel

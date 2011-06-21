@@ -582,9 +582,11 @@ class Application(Tkinter.Tk):
 		"""
 		lst = self.ListStations
 		if not lst:
+			print "no lst. returning"
 			return
 
 		value = self.radio.frequency
+		print "frequency is:", value
 		length = len(lst)
 		i1 = 0
 		i2 = length - 1
@@ -631,6 +633,8 @@ class Application(Tkinter.Tk):
 
 		freq = lst[index]
 
+		print "decided on a candidate of: ", freq
+		
 		# We now have a new candidate frequency.
 		# See if it in a selected band.
 		fmin = 2000000000

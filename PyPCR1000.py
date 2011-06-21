@@ -572,6 +572,7 @@ class Application(Tkinter.Tk):
 			self.varStation.set('')
 
 	def NextStation(self, up):
+		print "NextStation!"
 		"""
 		Tune to next station.
 		Binary search in a sorted list of all stations.
@@ -929,11 +930,20 @@ class Application(Tkinter.Tk):
 			self.StartMemscan()
 
 	def RunMemscan(self):
+		from time import sleep
 		p = self.radio.serialport
 		if p.isOpen() and self.memscanner:
-			while self.radio.squelch_open:		# wait for squelch to close
-				pass
-			self.NextStation(1)					# tune to the next channel
+			while True:
+				while self.radio.squelch_open:		# wait for squelch to close
+					print "signal.. sleeping.."
+					sleep(ScanMillisecs / 1000.0)
+					pass
+				print "no signal... sleeping in case it comes back..."
+				sleep(3 * ScanMillisecs / 1000.0)	# delay in case it comes back right away
+				if !self.radio.squelch_open:
+					print "signal didn't come back in time. next one!"
+					break
+			self.NextStation(1)						# tune to the next channel
 			self.after(ScanMillisecs, self.RunMemscan)	# Reschedule ourself
 
 	def StopMemscan(self):

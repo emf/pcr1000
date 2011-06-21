@@ -572,30 +572,23 @@ class Application(Tkinter.Tk):
 			self.varStation.set('')
 
 	def NextStation(self, up):
+		""" Tune to next station."""
 		from bisect import bisect_left, bisect_right
-		print "NextStation!"
-		"""
-		Tune to next station.
-		"""
-		lst = self.ListStations
-		if not lst:
+
+		if not self.ListStations:
 			return
 
-		value = self.radio.frequency
-		print "current frequency is:", value
-
 		if up:
-			i = bisect_right(lst,value)
-			if i == len(lst):		# we're at the right end, wrap around
+			i = bisect_right(self.ListStations, self.radio.frequency)
+			if i == len(self.ListStations):		# we're at the right end, wrap around
 				i = 0
-			freq = lst[i]
+			freq = self.ListStations[i]
 		else:
-			i = bisect_left(lst,value)
+			i = bisect_left(self.ListStations, self.radio.frequency)
 			if i == 0:				# we're at the left end, wrap around
-				i = len(lst)
-			freq = lst[i-1]
+				i = len(self.ListStations)
+			freq = self.ListStations[i-1]
 
-		print "tuning to: ", freq
 		self.dispFreq.Set(freq)
 		self.dispMode.Set(self.Stations[freq][2])
 		self.dispFilter.Set(self.Stations[freq][3])

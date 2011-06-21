@@ -191,6 +191,7 @@ class Application(Tkinter.Tk):
 		self.one_mm = float(self.screenwidth) / self.winfo_screenmmwidth()
 		self.logging = 0
 		self.scanner = 0		# 1==scan up, -1==scan down
+		self.memscanner = False
 		#self.bind('<<HaveInput>>', self.HaveInput)
 		self.sequence = 0
 		self.radio = PCR1000(self)
@@ -366,6 +367,7 @@ class Application(Tkinter.Tk):
 		b = Tkinter.Button(fru, text='Memscan', font=bfont, pady=bpady, width=8, command=self.OnButtonMemscan)
 		Help(b, 'Scan frequencies in Stations.csv. Resume when squelch re-closes.')
 		b.pack(side='right', anchor='e')
+		self.dispMemscan = b
 
 		self.StepBandChange(self.band_step)
 
@@ -739,6 +741,8 @@ class Application(Tkinter.Tk):
 	def ScanDownBand(self):
 		if self.radio.power != 1:
 			return
+		if self.memscanner:
+			self.StopMemscan()
 		if self.scanner == 1:
 			self.ScanUpBand() # Turn off previous scan
 		if self.scanner:
@@ -753,6 +757,8 @@ class Application(Tkinter.Tk):
 	def ScanUpBand(self):
 		if self.radio.power != 1:
 			return
+		if self.memscanner:
+			self.StopMemscan()
 		if self.scanner == -1:
 			self.ScanDownBand() # Turn off previous scan
 		if self.scanner:
@@ -912,7 +918,32 @@ class Application(Tkinter.Tk):
 				self.radio.RadioParseInput(text)
 
 	def OnButtonMemscan(self):
-		pass
+		if self.radio.power != 1:
+			return
+		if self.scanner:		# band scanning currently in progress, stop
+			self.StopScanner()
+
+		if self.memscanner:
+			self.StopMemscan()
+		else:
+			self.StartMemscan()
+
+	def RunMemscan(self):
+		p = self.radio.serialport
+		if p.isOpen() and self.memscanner:
+			while self.radio.squelch_open:		# wait for squelch to close
+				pass
+			self.NextStation(1)					# tune to the next channel
+			self.after(ScanMillisecs, self.RunMemscan)	# Reschedule ourself
+
+	def StopMemscan(self):
+		self.memscanner = False
+		self.dispMemscan.config(background=self.btnBcolor, activebackground=self.btnAcolor, relief='raised')
+
+	def StartMemscan(self):
+		self.memscanner = True
+		self.dispMemscan.config(background=ncolor, activebackground=ncolor, relief='sunken')
+		self.after(ScanMillisecs, self.RunMemscan)
 
 	def OnButtonUnused2(self):
 		pass

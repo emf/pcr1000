@@ -1705,6 +1705,7 @@ class VolumeKnob(ControlKnob):
 		ControlKnob.Draw(self)
 
 	def command(self, frac):
+		IniFile['Volume'] = str(frac)
 		self.radio.RadioSetVolume(frac)
 
 	def OnButton(self):
@@ -1735,6 +1736,7 @@ class SquelchKnob(ControlKnob):
 		ControlKnob.Draw(self)
 
 	def command(self, frac):
+		IniFile['Squelch'] = str(frac)
 		self.radio.RadioSetSquelch(frac)
 
 	def Active(self, active):

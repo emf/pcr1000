@@ -919,8 +919,8 @@ class PCR1000:
 		self.AFC = 0
 		self.ATT = 0
 		self.NB	 = 0
-		self.squelch = 0.0
-		self.volume = 0.25
+		self.squelch = float(IniFile.get('Squelch','0.0'))
+		self.volume = float(IniFile.get('Volume','0.25'))
 		self.ifshift = 0.5
 
 		# Start polling the serial port even though it is not open

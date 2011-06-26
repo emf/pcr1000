@@ -1,0 +1,296 @@
+
+one forum post indicates the "G" is replaced with a "Z".
+
+
+==================================================
+ICOM IC-R2500/PCR-2500 PROTOCOL
+
+==================================================
+
+ICOM PCR-1500/2500 Command Set:
+
+Frequency: K0GMMMKKKHHHmmff00
+where K0 G MMM KKK HHH mm ff 00
+G=GHz
+MMM=MHz
+KKK=KHz
+HHH=Hz
+mm = mode
+ff = Filter
+00 = Padding Bytes (always there)
+
+Mode Settings:
+00 = LSB
+01 = USB
+02 = AM
+03 = CW
+04 = Not used or Unknown
+05 = NFM
+06 = WFM
+07 = DSTAR (PCR-2500 Only)
+08 = P25 (PCR-2500 Only)
+
+Filter Settings:
+00 = 3 Khz (actually 2.8 Khz) (CW USB LSB AM)
+01 = 6 Khz (CW USB LSB AM NFM)
+02 = 15 Khz (AM NFM)
+03 = 50 Khz (AM NFM WFM)
+04 = 230 Khz (WFM)
+
+If the command is good you should get a G000 back.
+I got G001 when I tried modes above 6 which means bad command.
+
+
+The memory file is CSV but uses FM and P25 for the mode entries.
+
+__________________________________________________ ___
+
+
+Command Return Code:
+G0xx
+xx = 00 when command is accepted
+xx = 01 when command is bad
+
+Baud Rate:
+G1xx
+xx = 00 300
+xx = 01 1200
+xx = 02 4800
+xx = 03 9600
+xx = 04 19200
+xx = 05 38400
+
+
+Signal Update:
+G3xx
+00 = off (Software must manually poll signal strength, DTMF tone, Center,
+etc) See I1? to I3? below
+01 = on (Radio returns Status when a parameter changes) See Ix? commands
+02 = binary mode (Update off)
+03 = binary mode (Update on)
+
+Power:
+H1? Is radio alive?
+Radio responds: H101 (on) or H100 (off)
+
+CTCSS/DTCS SCAN OPERATION:
+When CTCSS/DTCS scanning the S/W sends (Rcvr 1):
+H600 - When CTCSS/DTCS scanning is to stop
+H601 - Is sent, prior each J51xx CTCSS or J520yxx DTCS Code command
+
+CTCSS/DTCS SCAN OPERATION:
+When CTCSS/DTCS scanning the S/W sends (Rcvr 2):
+H700 - When CTCSS/DTCS scanning is to stop
+H701 - Is sent, prior each J71xx CTCSS or J720yxx DTCS Code command
+
+
+Inquire signal information. These commands can be Polled or are
+returned as a packet if Autoupdate is ON (See G301) and one of the
+values changes.
+
+I0? Squelch Status: returns 04 = Closed, 07 = Open
+I1? Signal Strength: returns 00 to FF
+I2? Signal Centering: returns 00 = Low, 80 = Centered, FF = High
+
+I3? DTMF Tone
+returns I300 if NO DTMF tone present
+returns I31 + ASCII digit 0 to F (0~9, *=E, #=F)
+
+J0000 RELATED TO ANTENNA / DIVERSITY: UNKNOWN SETTING/OPTION
+Icom Software uses this during radio init and MODE IS FM.
+
+J0001 ANTENNA DIVERSITY OFF
+
+J0002 ANTENNA DIVERSITY ON
+
+
+Volume:
+J40xx xx Range 00 to FF (Rcvr 1)
+J60xx xx Range 00 to FF (Rcvr 2)
+
+Squelch (alway resets VSC when switching to/from OPEN SQL and back):
+J41xx xx Range 00 (OPEN) to FF (Rcvr 1)
+J61xx xx Range 00 (OPEN) to FF (Rcvr 2)
+
+Unkown:
+J42xx Unknown Rcvr1 Option
+J62xx Unknown Rcvr2 Option
+
+IF Shift:
+J43xx xx Range 00 to FF (Rcvr 1)
+J63xx xx Range 00 to FF (Rcvr 2)
+
+AGC (Auto Gain Control):
+J45xx xx = 00=OFF, 01=ON (Rcvr 1)
+J65xx xx = 00=OFF, 01=ON (Rcvr 2)
+
+NB (Noise Blanker):
+J46xx xx = 00=OFF, 01=ON (Rcvr 1)
+J66xx xx = 00=OFF, 01=ON (Rcvr 2)
+
+Attenuator:
+J47xx xx = 00=OFF, 01=ON (Rcvr 1)
+J67xx xx = 00=OFF, 01=ON (Rcvr 2)
+
+PROG SCAN:
+J48/68xx PROGram Scan Mode Options for Rcv1/Rcvr2:
+This tells the radio that quick (HEX) tuning is to follow,
+i.e. no change of mode or SQL options expected. (See K2/3xxxxxxx)
+xx=00 OFF, Back to normal tuning/response mode
+xx=01 ON , Expect abbreviated tunning accepted
+**** Expected response is H9xx for Rcvr1 and HDxx for Rcvr2.
+
+VSC (Voice Squelch Carrier):
+J50xx xx = 00=OFF, 01=ON (Rcvr 1)
+J70xx xx = 00=OFF, 01=ON (Rcvr 2)
+
+T.SQL (Tone Squelch):
+J51xx xx = 00=OFF (Rcvr 1)
+xx = 01=67Hz ~ 33=254.1Hz)
+J71xx xx = 00=OFF (Rcvr 2)
+xx = 01=67Hz ~ 33=254.1Hz)
+
+DTCS (DCS Squelch):
+J520yxx y = 0 Normal DTCS SQL (Rcvr 1)
+y = 1 Lockout DTCS Code
+y = 2 Reverse DTCS Polarity
+y = 3 Lockout the Reversed DCS Code
+xx = 00=OFF
+xx = 68=D754
+
+J530000 Rcvr1: CLEAR ALL SET RCVR SETTINGS AND OPTIONS (Usually during init)
+Icom software uses this during radio init.
+
+J720yxx y = 0 Normal DTCS SQL (Rcvr 2)
+y = 1 Lockout DTCS Code
+y = 2 Reverse DTCS Polarity
+y = 3 Lockout the Reversed DTCS Code
+xx = 00=OFF
+xx = 68=D754
+
+J730000 Rcvr2: CLEAR ALL SET RCVR SETTINGS AND OPTIONS (Usually during init)
+Icom software uses this during radio init.
+
+__________________________________________________ _________
+
+DSP Command Set:
+
+J8x Are the DSP commands below have to be sent as a packet
+followed by a Cr + Lf
+
+J8001|J8101|J820F|J8301 <- The pipes are there only for visual reference.
+
+On startup the software sends GD?
+Returns GD00 if NO DSP installed
+Returns GD01 if DSP Installed
+
+Autoupdate must be ON (send G301 + cr + lf):
+
+J8001 Always the same
+
+J81xx DSP Power (UT-106)
+xx is 00=OFF
+xx is 01=ON
+
+J82xx This is the ANR function (Automatic Noise Reduction)
+xx is 00 if ANR OFF.
+xx is 01 ~ 0F, when you turn knob on the DSP Popup-Panel.
+
+J83xx is the ANF function (Automatic Notch filter)
+xx is 00=OFF
+xx is 01=ON
+
+JA200 UNKNOWN SETTING/OPTION
+Icom Software uses this during radio init.
+JA201 UNKNOWN SETTING/OPTION
+Icom Software uses this during radio init.
+__________________________________________________ _________
+JBx Are P25 OPTION COMMANDS
+
+JB1xx is the P25 D.SQL Enabler (NAC FILTER)
+xx is 00=D.SQL (NAC FILTER) OFF: Allow ANY NAC,TGID or UNIT ID through
+xx is 01=D.SQL (NAC FILTER) ON: Allow ANY NAC,TGID or UNIT ID through
+xx is 02=D.SQL (NAC FILTER) ON: ALL Stored filter values are used.
+You should now explicity set them (see JB2x/3x/4x)
+
+JB2xxxx is the P25 NAC value, when D.SQL is enabled
+0000 is ALL NACs accepted
+
+JB3xxxx is the TGID Filter/Mask, when D.SQL is enabled
+0000 is ANY TGID
+value is HEX for 0-65535 (0-FFFF)
+
+JB4xxxxxxx is the UNIT (Radio) ID value, when D.SQL is enabled
+0000001 is OFF or ALL UNIT IDs
+value is in HEX for 1-9999999 (1-98967F)
+
+P25 NOTE: UNKOWN BUT JB20000,JB30000,JB4000001 ARE SENT
+WHEN NO P25 FILTERING IS SET.
+__________________________________________________ _________
+
+JC000 UNKNOWN SETTING/OPTION
+Icom Software uses this during radio init.
+JC500 UNKNOWN SETTING/OPTION
+Icom Software uses this during radio init.
+
+K2xxxxxxx PROGram Scan Quick Tune (Rcvr1),
+K3xxxxxxx PROGram Scan Quick Tune (Rcvr2):
+This means that the radio expects abbreviated freq tunning (See
+K2/3xxxxxxxx) instructions from the s/w
+to help speed up the scanning process.
+Every tune message (K2/3xxxxxxxx where Xs=HEX) must be followed by an
+H897/HC91 "execute" instruction.
+This allows the s/w to set SQL/DSP params prior to using the H9/HC "execute"
+instruction.
+The radio will then tune to the freq and return H9/C02, then H9/C01. These
+two response values back-to-
+back mean that this freq did not contain a carrier, and is expecting the
+next freq to be sent.
+If there was a carrier, then the normal Ixxx signal strength value would
+have been returned.
+Scanning should stop at this point until carrrier is lost, then resume.
+** Expected responses are H9xx=Rcvr1 and HDxx=Rcvr2.
+
+================================================== ==
+
+RADIO REPLIES
+I0xx Squelch Status xx=04 Closed, 07 Open.
+I1ss ss is Signal Strength 00 to FF
+I2xx xx=00 Signal Frequency < Display Frequency
+xx=80 Signal Frequency = Display Frequency
+xx=FF Signal Frequency > Display Frequency
+I300 No DTMF Present
+I31t t is DTMF tone (0-9 or *=E, #=F)
+
+P25: Receive Status Packet (From Rcvr)
+--------------------------------------
+
+Digital|TGID|UnitID (Hex)
+-------+------+---------------
+JB602 |0002|001C1D
+__________________
+=================================
+
+
+On the 2500 Commands,
+JA2xx Controls the Audio (USB?), 00=OFF & 01=On.
+
+J42xx J4201=Squelch Delay:Long, J4200=Squelch Delay:Short
+J62xx Haven't seen this one yet! Could be the SUB Rcvr Squelch Delay?
+
+J00xx -> Diversity/Tuners:
+J0002=Dual Diversity ON, 1 display using 2 tuners
+J0001=Single Diversity OFF, 1 display using 1 tuner
+J0000=OFF Diversity OFF, 2 displays using 2 tuners
+
+J720yxx -> Dual DTCS
+Y=0 - Normal, =1 - Reverse Polarity, =2 - Reverse Action, =3 - Both
+
+JC001=Option Unit Power=ON, JC000 Option Unit Power=Auto
+JC401=DV Monitor:Analog, JC400=DV Monitor igital
+JC501=DataBaudRate:4800, JC500=DataBaudRate:9600
+
+JB6TYGGGGRRRRRR
+TY = System Type
+GGGG = TalkGroup 0 to FFFF (Hex)
+RRRRRR = UserID 1 to 98967F (Hex)

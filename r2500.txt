@@ -98,6 +98,10 @@ returns I31 + ASCII digit 0 to F (0~9, *=E, #=F)
 
 J0000 RELATED TO ANTENNA / DIVERSITY: UNKNOWN SETTING/OPTION
 Icom Software uses this during radio init and MODE IS FM.
+J0002=Dual Diversity ON, 1 display using 2 tuners
+J0001=Single Diversity OFF, 1 display using 1 tuner
+J0000=OFF Diversity OFF, 2 displays using 2 tuners
+
 
 J0001 ANTENNA DIVERSITY OFF
 
@@ -114,7 +118,9 @@ J61xx xx Range 00 (OPEN) to FF (Rcvr 2)
 
 Unkown:
 J42xx Unknown Rcvr1 Option
+J42xx J4201=Squelch Delay:Long, J4200=Squelch Delay:Short
 J62xx Unknown Rcvr2 Option
+J62xx Haven't seen this one yet! Could be the SUB Rcvr Squelch Delay?
 
 IF Shift:
 J43xx xx Range 00 to FF (Rcvr 1)
@@ -202,6 +208,8 @@ xx is 01=ON
 
 JA200 UNKNOWN SETTING/OPTION
 Icom Software uses this during radio init.
+JA2xx Controls the Audio (USB?), 00=OFF & 01=On.
+
 JA201 UNKNOWN SETTING/OPTION
 Icom Software uses this during radio init.
 __________________________________________________ _________
@@ -226,12 +234,22 @@ value is in HEX for 1-9999999 (1-98967F)
 
 P25 NOTE: UNKOWN BUT JB20000,JB30000,JB4000001 ARE SENT
 WHEN NO P25 FILTERING IS SET.
+
+JB6TYGGGGRRRRRR
+TY = System Type
+GGGG = TalkGroup 0 to FFFF (Hex)
+RRRRRR = UserID 1 to 98967F (Hex)
+
 __________________________________________________ _________
 
 JC000 UNKNOWN SETTING/OPTION
 Icom Software uses this during radio init.
+JC001=Option Unit Power=ON, JC000 Option Unit Power=Auto
+JC401=DV Monitor:Analog, JC400=DV Monitor:Digital
+
 JC500 UNKNOWN SETTING/OPTION
 Icom Software uses this during radio init.
+JC501=DataBaudRate:4800, JC500=DataBaudRate:9600
 
 K2xxxxxxx PROGram Scan Quick Tune (Rcvr1),
 K3xxxxxxx PROGram Scan Quick Tune (Rcvr2):
